@@ -8,16 +8,14 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract ExpensiveNft is ERC721, Ownable {
     using Counters for Counters.Counter;
-    address private signerAddress;
+    address private signerAddress = 0x28037276963Ce8AAC3DD3fb46fDaF17F8532ea53;
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor(address _signerAddress) ERC721("ExpensiveNft", "RICH") {
-        signerAddress = _signerAddress;
-    }
+    constructor() ERC721("ExpensiveNft", "RICH") {}
 
-    function safeMint() external {
-        // check heree
+    function safeMint(bytes memory _signature) external {
+        require(_verifySignature(msg.sender, _signature), "Invalid signature");
         _safeMint();
     }
 
