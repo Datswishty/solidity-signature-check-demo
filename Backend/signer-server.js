@@ -15,8 +15,8 @@ app.get('/verifyme', async (req, res) => {
     { type: 'address', value: address },
   ])
   const signature = await EthCrypto.sign(VERY_SECRET_PK, message)
-  console.log(signature)
-  return signature
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify({ signature: signature }))
 })
 
 app.listen(port, () => {
